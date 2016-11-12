@@ -40,12 +40,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mhndev/order.git",
-                "reference": "e177e7b17d46265273794bb1a7dda5e4c6cbdb3a"
+                "reference": "2e66f96716ff75c986de8af0beac539dceb6c63a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mhndev/order/zipball/e177e7b17d46265273794bb1a7dda5e4c6cbdb3a",
-                "reference": "e177e7b17d46265273794bb1a7dda5e4c6cbdb3a",
+                "url": "https://api.github.com/repos/mhndev/order/zipball/2e66f96716ff75c986de8af0beac539dceb6c63a",
+                "reference": "2e66f96716ff75c986de8af0beac539dceb6c63a",
                 "shasum": ""
             },
             "require": {
@@ -80,7 +80,7 @@
             "keywords": [
                 "order"
             ],
-            "time": "2016-11-11 19:29:47"
+            "time": "2016-11-12 07:47:04"
         },
         {
             "name": "mongodb/mongodb",

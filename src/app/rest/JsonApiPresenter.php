@@ -113,12 +113,22 @@ class JsonApiPresenter
 
 
     /**
-     * @param mixed $data
+     * @param \Traversable|array $data
      * @return $this
      */
     public function setData($data)
     {
-        $this->data = $data;
+        if($data instanceof  \Traversable){
+            $this->data =  iterator_to_array($data);
+        } elseif (is_array($data)){
+            $this->data = $data;
+        } else {
+            throw new \InvalidArgumentException(sprintf(
+                'Should get \Traversable or array; given: (%s).'
+                , gettype($data)
+            ));
+
+        }
 
         return $this;
     }

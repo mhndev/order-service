@@ -37,16 +37,14 @@ class OrderController
      */
     public function show(Request $request, Response $response, $args)
     {
-        $result = $this->repository->findByIdentifier($args['id']);
-
-        $array = $result->objectToArray($result);
+        $order = $this->repository->findByIdentifier($args['id']);
 
         $response = (new JsonApiPresenter())
             ->setStatus(ResponseStatuses::SUCCESS)
             ->setMessage(ResponseMessages::FOUND)
             ->setStatusCode(200)
             ->setDescription('Order Item Found.')
-            ->setData($array)
+            ->setData($order)
             ->toJsonResponse($response);
 
         return $response;
@@ -59,14 +57,14 @@ class OrderController
      */
     public function me(Request $request, Response $response)
     {
-        $result = $this->repository->findByOwnerIdentifier('v3tb54nym4n5v34', true);
+        $orders = $this->repository->findByOwnerIdentifier('v3tb54nym4n5v34', true);
 
         $response = (new JsonApiPresenter())
             ->setStatus(ResponseStatuses::SUCCESS)
             ->setMessage(ResponseMessages::FOUND)
             ->setStatusCode(200)
             ->setDescription('my orders list.')
-            ->setData($result)
+            ->setData($orders)
             ->toJsonResponse($response);
 
         return $response;
@@ -151,7 +149,6 @@ class OrderController
         foreach ($data as $key => $value){
             $order->{'set'.ucfirst($key)}($value);
         }
-
 
         $result = $this->repository->update($order);
 
