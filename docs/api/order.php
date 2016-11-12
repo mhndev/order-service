@@ -51,7 +51,7 @@
 /**
  * @SWG\Swagger(
  *     basePath="",
- *     host="localhost:8080",
+ *     host="192.168.21.46:7000",
  *     schemes={"http"},
  *     @SWG\Info(
  *         version="1.0",
@@ -79,14 +79,14 @@
 /**
  *
  * @SWG\Get(
- *     path="/show.php",
+ *     path="/order/{id}",
  *     description="Returns specified Order",
  *     summary="show an order",
  *     operationId="api.order.show",
  *     produces={"application/json"},
  *     tags={"Order"},
  *     @SWG\Parameter(
- *        in = "query",
+ *        in = "path",
  *        name = "id",
  *        description = "order id to show",
  *        required = true,
@@ -115,19 +115,12 @@
 /**
  *
  * @SWG\Get(
- *     path="/me.php",
+ *     path="/order/me",
  *     description="Returns list of my Orders",
  *     summary="show my orders",
  *     operationId="api.order.me",
  *     produces={"application/json"},
  *     tags={"Order"},
- *     @SWG\Parameter(
- *        in = "query",
- *        name = "owner",
- *        description = "owner id orders to show",
- *        required = true,
- *        type = "string"
- *     ),
  *     @SWG\Response(
  *         response=200,
  *         description="orders list."
@@ -146,13 +139,35 @@
 
 
 
-
+/**
+ *
+ * @SWG\Get(
+ *     path="/order",
+ *     description="Returns list of all Orders",
+ *     summary="list orders",
+ *     operationId="api.order.all",
+ *     produces={"application/json"},
+ *     tags={"Order"},
+ *     @SWG\Response(
+ *         response=200,
+ *         description="orders list."
+ *     ),
+ *     @SWG\Response(
+ *         response=401,
+ *         description="Unauthorized action.",
+ *     ),
+ *     @SWG\Response(
+ *         response=404,
+ *         description="Not found.",
+ *     )
+ * )
+ */
 
 
 /**
  *
  * @SWG\Post(
- *     path="/insert.php",
+ *     path="/order",
  *     description="Create an Order and return it as response",
  *     summary="create an order",
  *     operationId="api.order.create",
@@ -189,7 +204,7 @@
 /**
  *
  * @SWG\Patch(
- *     path="/chagestatus.php",
+ *     path="/order/{id}",
  *     description="change status of and order",
  *     summary="change order status",
  *     operationId="api.order.change-status",
@@ -197,7 +212,7 @@
  *     consumes={"application/json"},
  *     tags={"Order"},
  *     @SWG\Parameter(
- *        in = "query",
+ *        in = "path",
  *        name = "id",
  *        type = "string",
  *        description = "order id",
@@ -237,7 +252,7 @@
 /**
  *
  * @SWG\Delete(
- *     path="/delete.php",
+ *     path="/order/{id}",
  *     description="delete an order",
  *     summary="delete an order",
  *     operationId="api.order.delete",
@@ -245,7 +260,7 @@
  *     consumes={"application/json"},
  *     tags={"Order"},
  *     @SWG\Parameter(
- *        in = "query",
+ *        in = "path",
  *        name = "id",
  *        type = "string",
  *        description = "order id",
@@ -269,7 +284,7 @@
 /**
  *
  * @SWG\Put(
- *     path="/update.php",
+ *     path="/order/{id}",
  *     description="update an Order and return it as response",
  *     summary="update an order",
  *     operationId="api.order.create",
@@ -284,7 +299,7 @@
  *        @SWG\Schema(ref="Order"),
  *     ),
  *     @SWG\Parameter(
- *        in = "query",
+ *        in = "path",
  *        name = "id",
  *        type = "string",
  *        description = "order id",

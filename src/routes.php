@@ -12,6 +12,7 @@
 
 
 $app->get('/order','mhndev\orderService\http\OrderController:index');
+$app->get('/order/me','mhndev\orderService\http\OrderController:me');
 $app->get('/order/{id}','mhndev\orderService\http\OrderController:show');
 $app->post('/order','mhndev\orderService\http\OrderController:create');
 $app->patch('/order/{id}','mhndev\orderService\http\OrderController:changeStatus');

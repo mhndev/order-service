@@ -57,6 +57,27 @@ class OrderController
      * @param Response $response
      * @return mixed|Response
      */
+    public function me(Request $request, Response $response)
+    {
+        $result = $this->repository->findByOwnerIdentifier('v3tb54nym4n5v34', true);
+
+        $response = (new JsonApiPresenter())
+            ->setStatus(ResponseStatuses::SUCCESS)
+            ->setMessage(ResponseMessages::FOUND)
+            ->setStatusCode(200)
+            ->setDescription('my orders list.')
+            ->setData($result)
+            ->toJsonResponse($response);
+
+        return $response;
+    }
+
+
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @return mixed|Response
+     */
     public function index(Request $request, Response $response)
     {
         $this->repository->list();
