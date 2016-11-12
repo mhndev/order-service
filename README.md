@@ -4,6 +4,22 @@
 
 
 ### API DOC URI :
+
+run the following command in you project root to create json file for swagger
+```
+./vendor/bin/swagger docs/api/ -o public/api/
+```
+then open following file 
+```
+public/dist/index.html
+```
+
+and change the following part to fit your domain :
+```
+url = "http://192.168.21.46:7000/api/swagger.json";
+```
+
+
 ```
 http://domain/dist
 ```
