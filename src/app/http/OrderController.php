@@ -4,9 +4,7 @@ namespace mhndev\orderService\http;
 
 use mhndev\order\entities\common\Order;
 use mhndev\order\interfaces\repositories\iOrderRepository;
-use mhndev\orderService\rest\JsonApiPresenter;
-use mhndev\orderService\rest\ResponseMessages;
-use mhndev\orderService\rest\ResponseStatuses;
+use mhndev\restHal\HalApiPresenter;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -18,6 +16,9 @@ class OrderController
 {
 
 
+    /**
+     * @var iOrderRepository
+     */
     protected $repository;
 
     /**
@@ -39,16 +40,15 @@ class OrderController
     {
         $order = $this->repository->findByIdentifier($args['id']);
 
-        $response = (new JsonApiPresenter())
-            ->setStatus(ResponseStatuses::SUCCESS)
-            ->setMessage(ResponseMessages::FOUND)
+        $response = (new HalApiPresenter('resource'))
             ->setStatusCode(200)
-            ->setDescription('Order Item Found.')
             ->setData($order)
-            ->toJsonResponse($response);
+            ->makeResponse($request, $response);
 
         return $response;
     }
+
+
 
     /**
      * @param Request $request
@@ -57,15 +57,12 @@ class OrderController
      */
     public function me(Request $request, Response $response)
     {
-        $orders = $this->repository->findByOwnerIdentifier('v3tb54nym4n5v34', true);
+        $orders = $this->repository->findByOwnerIdentifier('v3tb54nym4n5v34');
 
-        $response = (new JsonApiPresenter())
-            ->setStatus(ResponseStatuses::SUCCESS)
-            ->setMessage(ResponseMessages::FOUND)
+        $response = (new HalApiPresenter('collection'))
             ->setStatusCode(200)
-            ->setDescription('my orders list.')
             ->setData($orders)
-            ->toJsonResponse($response);
+            ->makeResponse($request, $response);
 
         return $response;
     }
@@ -80,12 +77,10 @@ class OrderController
     {
         $this->repository->list();
 
-        $response = (new JsonApiPresenter())
-            ->setStatus(ResponseStatuses::SUCCESS)
-            ->setMessage(ResponseMessages::DELETED)
+        $response = (new HalApiPresenter('collection'))
             ->setStatusCode(204)
-            ->setDescription('Order Item Deleted.')
-            ->toJsonResponse($response);
+            ->setData([])
+            ->makeResponse($request, $response);
 
         return $response;
     }
@@ -100,12 +95,10 @@ class OrderController
     {
         $this->repository->deleteByIdentifier($args['id']);
 
-        $response = (new JsonApiPresenter())
-            ->setStatus(ResponseStatuses::SUCCESS)
-            ->setMessage(ResponseMessages::DELETED)
+        $response = (new HalApiPresenter('resource'))
             ->setStatusCode(204)
-            ->setDescription('Order Item Deleted.')
-            ->toJsonResponse($response);
+            ->setData([])
+            ->makeResponse($request, $response);
 
         return $response;
     }
@@ -123,13 +116,10 @@ class OrderController
         /** @var Order $result */
         $result = $this->repository->insert($order);
 
-        $response = (new JsonApiPresenter())
-            ->setStatus(ResponseStatuses::SUCCESS)
-            ->setMessage(ResponseMessages::CREATED)
+        $response = (new HalApiPresenter('resource'))
             ->setData($result->objectToArray($result))
             ->setStatusCode(202)
-            ->setDescription('Order Item Created.')
-            ->toJsonResponse($response);
+            ->makeResponse($request, $response);
 
         return $response;
     }
@@ -153,13 +143,10 @@ class OrderController
         $result = $this->repository->update($order);
 
 
-        $response = (new JsonApiPresenter())
-            ->setStatus(ResponseStatuses::SUCCESS)
-            ->setMessage(ResponseMessages::UPDATED)
+        $response = (new HalApiPresenter('resource'))
             ->setData($result->objectToArray($result))
             ->setStatusCode(200)
-            ->setDescription('Order Item Updated.')
-            ->toJsonResponse($response);
+            ->makeResponse($request, $response);
 
         return $response;
     }

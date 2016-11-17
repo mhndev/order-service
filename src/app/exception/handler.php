@@ -1,12 +1,9 @@
 <?php
-
-namespace mhndev\orderService\exception;
-use mhndev\orderService\rest\JsonApiPresenter;
-use mhndev\orderService\rest\ResponseStatuses;
+namespace mhndev\locationService\exception;
 
 /**
  * Class handler
- * @package mhndev\orderService\exception
+ * @package mhndev\locationService\exception
  */
 class handler
 {
@@ -34,7 +31,7 @@ class handler
                 ->toJsonResponse($response));
         }
 
-        
+
         else{
             $container->logger->addError($e);
             throw  $e ;
