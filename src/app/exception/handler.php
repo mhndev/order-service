@@ -1,9 +1,9 @@
 <?php
-namespace mhndev\locationService\exception;
+namespace mhndev\orderService\exception;
 
 /**
  * Class handler
- * @package mhndev\locationService\exception
+ * @package mhndev\orderService\exception
  */
 class handler
 {

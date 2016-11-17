@@ -59,9 +59,16 @@ class OrderController
     {
         $orders = $this->repository->findByOwnerIdentifier('v3tb54nym4n5v34');
 
+        $data = [
+            'data'  => $orders,
+            'total' => 20,
+            'count' => 5,
+            'name'  => 'orders'
+        ];
+
         $response = (new HalApiPresenter('collection'))
             ->setStatusCode(200)
-            ->setData($orders)
+            ->setData($data)
             ->makeResponse($request, $response);
 
         return $response;
