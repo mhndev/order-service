@@ -128,7 +128,11 @@ class OrderController
      */
     public function create(Request $request, Response $response)
     {
-        $order = Order::fromOptions($request->getParsedBody());
+        $data = $request->getParsedBody();
+
+        $data = array_merge($data, ['ownerIdentifier' => 'v3tb54nym4n5v34']);
+
+        $order = Order::fromOptions($data);
 
         /** @var Order $result */
         $result = $this->repository->insert($order);
