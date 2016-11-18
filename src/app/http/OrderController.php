@@ -57,14 +57,24 @@ class OrderController
      */
     public function me(Request $request, Response $response)
     {
-        $orders = $this->repository->findByOwnerIdentifier('v3tb54nym4n5v34');
+        $perPage  = $request->getQueryParam('perPage') ? $request->getQueryParam('perPage') : 10;
+        $page = $request->getQueryParam('page') ? $request->getQueryParam('page') : 1;
+
+        $offset = (int)(($page - 1) * $perPage);
+        $limit = (int)$perPage;
+
+        $orders = $this->repository->findByOwnerIdentifier('v3tb54nym4n5v34', $offset, $limit);
+
+        $total = $orders['total'];
+        $perPage = min($total, $perPage);
 
         $data = [
-            'data'  => $orders,
-            'total' => 20,
-            'count' => 5,
+            'data'  => empty($orders['data']) ? [] : $orders['data'],
+            'total' => $orders['total'],
+            'count' => $perPage,
             'name'  => 'orders'
         ];
+
 
         $response = (new HalApiPresenter('collection'))
             ->setStatusCode(200)
