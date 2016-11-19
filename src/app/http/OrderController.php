@@ -54,6 +54,21 @@ class OrderController
     }
 
 
+    /**
+     * @param Request $request
+     * @return array
+     */
+    private function getPaginationParamsFromRequest(Request $request)
+    {
+        $perPage  = $request->getQueryParam('perPage') ? $request->getQueryParam('perPage') : 10;
+        $page = $request->getQueryParam('page') ? $request->getQueryParam('page') : 1;
+
+        $offset = (int)(($page - 1) * $perPage);
+        $limit = (int)$perPage;
+
+        return compact('perPage', 'page', 'offset', 'limit');
+    }
+
 
     /**
      * @param Request $request
@@ -62,24 +77,16 @@ class OrderController
      */
     public function me(Request $request, Response $response)
     {
-        $perPage  = $request->getQueryParam('perPage') ? $request->getQueryParam('perPage') : 10;
-        $page = $request->getQueryParam('page') ? $request->getQueryParam('page') : 1;
-
-        $offset = (int)(($page - 1) * $perPage);
-        $limit = (int)$perPage;
-
+        list($perPage, $page, $offset, $limit) = $this->getPaginationParamsFromRequest($request);
         $orders = $this->repository->findByOwnerIdentifier('v3tb54nym4n5v34', $offset, $limit);
-
-        $total = $orders['total'];
-        $perPage = min($total, $perPage);
+        $perPage = min($orders['total'], $perPage);
 
         $data = [
-            'data'  => empty($orders['data']) ? [] : $orders['data'],
+            'data'  => get($orders['data'], []),
             'total' => $orders['total'],
             'count' => $perPage,
             'name'  => 'orders'
         ];
-
 
         $response = (new HalApiPresenter('collection'))
             ->setStatusCode(200)
@@ -97,7 +104,7 @@ class OrderController
      */
     public function index(Request $request, Response $response)
     {
-        $this->repository->list();
+        $this->repository->listAll();
 
         $response = (new HalApiPresenter('collection'))
             ->setStatusCode(204)
