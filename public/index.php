@@ -17,11 +17,9 @@ require __DIR__ . '/../vendor/autoload.php';
 
 session_start();
 
-//error_reporting(E_ALL);
 header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Methods: OPTIONS, GET, POST ,PUT, DELETE, PATCH");
-header('Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
-
+header("Access-Control-Allow-Headers: X-API-KEY, Origin, Access-Control-Allow-Headers, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method, Authorization");
 
 // Instantiate the app
 $settings = require __DIR__ . '/../src/settings.php';
@@ -37,6 +35,7 @@ $c['errorHandler'] = function ($c) {
     };
 };
 
+
 // Set up dependencies
 require __DIR__ . '/../src/dependencies.php';
 
@@ -45,6 +44,9 @@ require __DIR__ . '/../src/middleware.php';
 
 // Register routes
 require __DIR__ . '/../src/routes.php';
+
+// Set up application events
+require __DIR__ . '/../src/app/events.php';
 
 // Run app
 $app->run();

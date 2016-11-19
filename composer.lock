@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a654a1518db42ce02f493e9d96cbaa55",
-    "content-hash": "1caff2015aefd2e5d700c49819910c33",
+    "hash": "8ba5de774e1de48cba049cf3f0759e0d",
+    "content-hash": "8f040b732cd492c012286cf441548920",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -33,6 +33,44 @@
             ],
             "description": "Promoting the interoperability of container objects (DIC, SL, etc.)",
             "time": "2014-12-30 15:22:37"
+        },
+        {
+            "name": "mhndev/event",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mhndev/event.git",
+                "reference": "799c2027cd31e14bb2b31b938e1c87849b5a4ef9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mhndev/event/zipball/799c2027cd31e14bb2b31b938e1c87849b5a4ef9",
+                "reference": "799c2027cd31e14bb2b31b938e1c87849b5a4ef9",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.9"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "mhndev\\event\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "keywords": [
+                "bind event",
+                "event",
+                "event based",
+                "event oriented",
+                "php",
+                "php event",
+                "trigger event"
+            ],
+            "time": "2016-07-09 20:15:19"
         },
         {
             "name": "mhndev/order",

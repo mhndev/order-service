@@ -2,9 +2,12 @@
 
 namespace mhndev\orderService\http;
 
+use mhndev\event\Event;
 use mhndev\order\entities\common\Order;
 use mhndev\order\interfaces\repositories\iOrderRepository;
 use mhndev\restHal\HalApiPresenter;
+use mhndev\restHal\PatchOperationBuilder;
+use MongoDB\DeleteResult;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -29,6 +32,8 @@ class OrderController
     {
         $this->repository = $repository;
     }
+
+
 
     /**
      * @param Request $request
@@ -102,6 +107,8 @@ class OrderController
         return $response;
     }
 
+
+
     /**
      * @param Request $request
      * @param Response $response
@@ -110,7 +117,15 @@ class OrderController
      */
     public function delete(Request $request, Response $response, $args)
     {
-        $this->repository->deleteByIdentifier($args['id']);
+        /** @var DeleteResult $result */
+        $result = $this->repository->deleteByIdentifier($args['id']);
+
+        $count = $result->getDeletedCount();
+
+        if($count == 1){
+            Event::trigger('order.deleted', $args['id'] );
+        }
+
 
         $response = (new HalApiPresenter('resource'))
             ->setStatusCode(204)
@@ -134,11 +149,13 @@ class OrderController
 
         $order = Order::fromOptions($data);
 
-        /** @var Order $result */
-        $result = $this->repository->insert($order);
+        /** @var Order $orderCreated */
+        $orderCreated = $this->repository->insert($order);
+
+        Event::trigger('order.created', $orderCreated);
 
         $response = (new HalApiPresenter('resource'))
-            ->setData($result->objectToArray($result))
+            ->setData(iterator_to_array($orderCreated))
             ->setStatusCode(202)
             ->makeResponse($request, $response);
 
@@ -161,11 +178,12 @@ class OrderController
             $order->{'set'.ucfirst($key)}($value);
         }
 
-        $result = $this->repository->update($order);
+        $orderUpdated = $this->repository->update($order);
 
+        Event::trigger('order.updated', $orderUpdated);
 
         $response = (new HalApiPresenter('resource'))
-            ->setData($result->objectToArray($result))
+            ->setData(iterator_to_array($orderUpdated))
             ->setStatusCode(200)
             ->makeResponse($request, $response);
 
@@ -177,16 +195,24 @@ class OrderController
      * @param Request $request
      * @param Response $response
      * @param $args
+     * @return Response
      */
     public function changeStatus(Request $request, Response $response, $args)
     {
+        $order = $this->repository->findByIdentifier($args['id']);
 
-        $instructions = $request->getParsedBody();
 
-        var_dump($instructions);
-        die();
+        $orderUpdated = PatchOperationBuilder::applyFromRequest($request, $order);
 
-        $result = $this->repository->changeStatus($args['id'], $instructions);
+        $this->repository->update($orderUpdated);
+
+        $response = (new HalApiPresenter('resource'))
+            ->setData(iterator_to_array($orderUpdated))
+            ->setStatusCode(200)
+            ->makeResponse($request, $response);
+
+        return $response;
+
     }
 
 
