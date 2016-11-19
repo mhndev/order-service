@@ -170,13 +170,12 @@ class OrderController
      */
     public function update(Request $request, Response $response, $args)
     {
+        /** @var \mhndev\order\entities\mongo\Order $order */
         $order = $this->repository->findByIdentifier($args['id']);
 
         $data = $request->getParsedBody();
 
-        foreach ($data as $key => $value){
-            $order->{'set'.ucfirst($key)}($value);
-        }
+        $order->buildByOptions($data);
 
         $orderUpdated = $this->repository->update($order);
 
@@ -201,7 +200,6 @@ class OrderController
     {
         $order = $this->repository->findByIdentifier($args['id']);
 
-
         $orderUpdated = PatchOperationBuilder::applyFromRequest($request, $order);
 
         $this->repository->update($orderUpdated);
@@ -212,7 +210,6 @@ class OrderController
             ->makeResponse($request, $response);
 
         return $response;
-
     }
 
 

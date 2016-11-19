@@ -17,9 +17,10 @@ require __DIR__ . '/../vendor/autoload.php';
 
 session_start();
 
-header('Access-Control-Allow-Origin: *');
-header("Access-Control-Allow-Methods: OPTIONS, GET, POST ,PUT, DELETE, PATCH");
-header("Access-Control-Allow-Headers: X-API-KEY, Origin, Access-Control-Allow-Headers, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method, Authorization");
+//header('Access-Control-Allow-Origin: *');
+//header("Access-Control-Allow-Methods: OPTIONS, GET, POST ,PUT, DELETE, PATCH");
+//header('Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
+
 
 // Instantiate the app
 $settings = require __DIR__ . '/../src/settings.php';

@@ -23,7 +23,8 @@
         "monolog/monolog": "^1.17",
         "mhndev/order" : "dev-develop",
         "mhndev/rest-hal": "dev-develop",
-        "mhndev/event": "^1.0"
+        "mhndev/event": "^1.0",
+        "mhndev/php-std": "dev-develop"
     },
     "require-dev": {
         "phpunit/phpunit": ">=4.8 < 6.0",
