@@ -18,6 +18,20 @@ $container['logger'] = function ($c) {
     return $logger;
 };
 
+
+
+$c = $app->getContainer();
+$c['errorHandler'] = function ($c) {
+    return function ($request, $response, $exception) use ($c) {
+
+        $globalExceptionHandler = new \mhndev\orderService\exception\handler();
+        return $globalExceptionHandler->render($exception, $response,$c );
+
+    };
+};
+
+
+
 $container['db'] = function($c){
     $settings = $c->get('settings')['db'];
     $mongoDriver = new \mhndev\order\MongoDriverManager();

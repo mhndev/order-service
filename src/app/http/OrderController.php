@@ -77,7 +77,8 @@ class OrderController
      */
     public function me(Request $request, Response $response)
     {
-        list($perPage, $page, $offset, $limit) = $this->getPaginationParamsFromRequest($request);
+        list($perPage, $page, $offset, $limit) = array_values($this->getPaginationParamsFromRequest($request));
+
         $orders = $this->repository->findByOwnerIdentifier('v3tb54nym4n5v34', $offset, $limit);
         $perPage = min($orders['total'], $perPage);
 
@@ -104,12 +105,18 @@ class OrderController
      */
     public function index(Request $request, Response $response)
     {
-        $this->repository->listAll();
+        list($perPage, $page, $offset, $limit) = array_values($this->getPaginationParamsFromRequest($request));
+
+        $orders = $this->repository->listAll($offset, $limit);
+        $perPage = min($orders['total'], $perPage);
+
+        $newData = ['data'=>get($orders['data'], []), 'total'=>$orders['total'], 'count'=>$perPage, 'name'=>'orders'];
 
         $response = (new HalApiPresenter('collection'))
-            ->setStatusCode(204)
-            ->setData([])
+            ->setStatusCode(200)
+            ->setData($newData)
             ->makeResponse($request, $response);
+
 
         return $response;
     }
