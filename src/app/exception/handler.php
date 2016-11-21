@@ -32,6 +32,7 @@ class handler
         }
 
 
+
         else{
             $container->logger->addError($e);
             throw  $e ;
