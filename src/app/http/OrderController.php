@@ -47,7 +47,7 @@ class OrderController
 
         $response = (new HalApiPresenter('resource'))
             ->setStatusCode(200)
-            ->setData($order)
+            ->setData(iterator_to_array($order))
             ->makeResponse($request, $response);
 
         return $response;
@@ -158,9 +158,7 @@ class OrderController
     public function create(Request $request, Response $response)
     {
         $data = $request->getParsedBody();
-
         $data = array_merge($data, ['ownerIdentifier' => 'v3tb54nym4n5v34']);
-
         $order = Order::fromOptions($data);
 
         /** @var Order $orderCreated */
@@ -213,9 +211,7 @@ class OrderController
     public function changeStatus(Request $request, Response $response, $args)
     {
         $order = $this->repository->findByIdentifier($args['id']);
-
         $orderUpdated = PatchOperationBuilder::applyFromRequest($request, $order);
-
         $this->repository->update($orderUpdated);
 
         $response = (new HalApiPresenter('resource'))
@@ -225,6 +221,94 @@ class OrderController
 
         return $response;
     }
+
+
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     */
+    public function driverListOrders(Request $request, Response $response, $args)
+    {
+
+    }
+
+
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return Response
+     */
+    public function driverAcceptOrder(Request $request, Response $response, $args)
+    {
+        $order = $this->repository->findByIdentifier($args['id']);
+
+        $driver  = '';
+
+        $order->addOption('driver', $driver);
+
+        $this->repository->update($order);
+
+        Event::trigger('order.driver-accept', $order);
+
+        $response = (new HalApiPresenter('resource'))
+            ->setData(iterator_to_array($order))
+            ->setStatusCode(200)
+            ->makeResponse($request, $response);
+
+        return $response;
+    }
+
+
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return Response
+     */
+    public function driverCancelOrder(Request $request, Response $response, $args)
+    {
+        $order = $this->repository->findByIdentifier($args['id']);
+
+        $order->removeOption('driver');
+
+        $this->repository->update($order);
+
+        Event::trigger('order.driver-cancel', $order);
+
+        $response = (new HalApiPresenter('resource'))
+            ->setData(iterator_to_array($order))
+            ->setStatusCode(200)
+            ->makeResponse($request, $response);
+
+        return $response;
+    }
+
+
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return Response
+     */
+    public function customerCancelOrder(Request $request, Response $response, $args)
+    {
+        $order = $this->repository->findByIdentifier($args['id']);
+
+        $this->repository->changeStatus($args['id'], Order::ORDER_CANCELED_BY_CUSTOMER);
+
+        Event::trigger('order.customer-cancel', $order);
+
+        $response = (new HalApiPresenter('resource'))
+            ->setData(iterator_to_array($order))
+            ->setStatusCode(200)
+            ->makeResponse($request, $response);
+
+        return $response;
+    }
+
+
 
 
 }

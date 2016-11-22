@@ -78,12 +78,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mhndev/order.git",
-                "reference": "1decdfa6c9ce51eb73ad259989ad302568e95796"
+                "reference": "a7af41666575a5425272ac86d493f38d879e8321"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mhndev/order/zipball/1decdfa6c9ce51eb73ad259989ad302568e95796",
-                "reference": "1decdfa6c9ce51eb73ad259989ad302568e95796",
+                "url": "https://api.github.com/repos/mhndev/order/zipball/a7af41666575a5425272ac86d493f38d879e8321",
+                "reference": "a7af41666575a5425272ac86d493f38d879e8321",
                 "shasum": ""
             },
             "require": {
@@ -118,7 +118,7 @@
             "keywords": [
                 "order"
             ],
-            "time": "2016-11-19 08:26:32"
+            "time": "2016-11-20 11:54:08"
         },
         {
             "name": "mhndev/php-std",
@@ -126,12 +126,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mhndev/php-std.git",
-                "reference": "68b54687eb0203f0a2d58e55daa860282e1b8ac5"
+                "reference": "d79326144e00b6c4abf186806570bd78d6bf006c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mhndev/php-std/zipball/68b54687eb0203f0a2d58e55daa860282e1b8ac5",
-                "reference": "68b54687eb0203f0a2d58e55daa860282e1b8ac5",
+                "url": "https://api.github.com/repos/mhndev/php-std/zipball/d79326144e00b6c4abf186806570bd78d6bf006c",
+                "reference": "d79326144e00b6c4abf186806570bd78d6bf006c",
                 "shasum": ""
             },
             "require": {
@@ -144,7 +144,10 @@
             "autoload": {
                 "psr-4": {
                     "mhndev\\phpStd\\": "src"
-                }
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -162,7 +165,7 @@
             "keywords": [
                 "php standard library"
             ],
-            "time": "2016-11-19 12:17:20"
+            "time": "2016-11-20 10:44:22"
         },
         {
             "name": "mhndev/rest-hal",
@@ -170,12 +173,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mhndev/rest-hal.git",
-                "reference": "2547f0cc7a5734d4c1c2265475924749065a6818"
+                "reference": "63453c5088fee49606e1c2003f81dce1b34db466"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mhndev/rest-hal/zipball/2547f0cc7a5734d4c1c2265475924749065a6818",
-                "reference": "2547f0cc7a5734d4c1c2265475924749065a6818",
+                "url": "https://api.github.com/repos/mhndev/rest-hal/zipball/63453c5088fee49606e1c2003f81dce1b34db466",
+                "reference": "63453c5088fee49606e1c2003f81dce1b34db466",
                 "shasum": ""
             },
             "require": {
@@ -210,7 +213,7 @@
                 "hal",
                 "rest"
             ],
-            "time": "2016-11-19 08:29:02"
+            "time": "2016-11-21 07:54:55"
         },
         {
             "name": "mongodb/mongodb",
@@ -630,16 +633,16 @@
         },
         {
             "name": "slim/slim",
-            "version": "3.5.0",
+            "version": "3.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/slimphp/Slim.git",
-                "reference": "184352bc1913d7ba552ab4131d62f4730ddb0893"
+                "reference": "a685fe91a9435e1432e8eeb7cf516e2f5cee7f64"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/slimphp/Slim/zipball/184352bc1913d7ba552ab4131d62f4730ddb0893",
-                "reference": "184352bc1913d7ba552ab4131d62f4730ddb0893",
+                "url": "https://api.github.com/repos/slimphp/Slim/zipball/a685fe91a9435e1432e8eeb7cf516e2f5cee7f64",
+                "reference": "a685fe91a9435e1432e8eeb7cf516e2f5cee7f64",
                 "shasum": ""
             },
             "require": {
@@ -696,7 +699,7 @@
                 "micro",
                 "router"
             ],
-            "time": "2016-07-26 15:12:13"
+            "time": "2016-11-20 20:48:49"
         }
     ],
     "packages-dev": [
@@ -2079,16 +2082,16 @@
         },
         {
             "name": "symfony/finder",
-            "version": "v3.1.6",
+            "version": "v3.1.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
-                "reference": "205b5ffbb518a98ba2ae60a52656c4a31ab00c6f"
+                "reference": "9925935bf7144f9e4d2b976905881b4face036fb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/finder/zipball/205b5ffbb518a98ba2ae60a52656c4a31ab00c6f",
-                "reference": "205b5ffbb518a98ba2ae60a52656c4a31ab00c6f",
+                "url": "https://api.github.com/repos/symfony/finder/zipball/9925935bf7144f9e4d2b976905881b4face036fb",
+                "reference": "9925935bf7144f9e4d2b976905881b4face036fb",
                 "shasum": ""
             },
             "require": {
@@ -2124,20 +2127,20 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "https://symfony.com",
-            "time": "2016-09-28 00:11:12"
+            "time": "2016-11-03 08:04:31"
         },
         {
             "name": "symfony/yaml",
-            "version": "v3.1.6",
+            "version": "v3.1.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "7ff51b06c6c3d5cc6686df69004a42c69df09e27"
+                "reference": "9da375317228e54f4ea1b013b30fa47417e84943"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/7ff51b06c6c3d5cc6686df69004a42c69df09e27",
-                "reference": "7ff51b06c6c3d5cc6686df69004a42c69df09e27",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/9da375317228e54f4ea1b013b30fa47417e84943",
+                "reference": "9da375317228e54f4ea1b013b30fa47417e84943",
                 "shasum": ""
             },
             "require": {
@@ -2173,7 +2176,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2016-10-24 18:41:13"
+            "time": "2016-11-18 21:05:29"
         },
         {
             "name": "webmozart/assert",
