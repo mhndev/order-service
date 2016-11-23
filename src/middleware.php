@@ -3,9 +3,11 @@
 
 // e.g: $app->add(new \Slim\Csrf\Guard);
 
+$app->add($app->getContainer()->get('corsMiddleware'));
 
 
-$app->add(function ($req, $res, $next) {
+
+/*$app->add(function ($req, $res, $next) {
     $response = $next($req, $res);
     return $response
         ->withHeader('Access-Control-Allow-Origin', '*')
@@ -38,4 +40,4 @@ $app->add(function($request, $response, $next) {
 
 
     return $response->withHeader("Access-Control-Allow-Methods", implode(",", $methods));
-});
+});*/

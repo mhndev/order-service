@@ -49,3 +49,24 @@ $container['OrderRepository'] = function ($c) {
 $container[\mhndev\orderService\http\OrderController::class] = function ($c) {
     return new \mhndev\orderService\http\OrderController($c['OrderRepository']);
 };
+
+
+$container['authorizationMiddleware'] = function($c){
+    return new \mhndev\orderService\middlewares\MiddlewareAuthorization($c);
+};
+
+$container['corsMiddleware'] = function($c){
+    return new \Tuupola\Middleware\Cors([
+        "origin" => ["*"],
+        "methods" => ["GET", "POST", "PUT", "PATCH", "DELETE"],
+        "headers.allow" => ["Authorization", "If-Match", "If-Unmodified-Since"],
+        "headers.expose" => ["Etag"],
+        "credentials" => true,
+        "cache" => 86400
+    ]);
+};
+
+
+$container['corsMiddlewareMe'] = function($c){
+    return new \mhndev\orderService\middlewares\MiddlewareCors($c);
+};

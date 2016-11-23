@@ -24,7 +24,10 @@
         "mhndev/order" : "dev-develop",
         "mhndev/rest-hal": "dev-develop",
         "mhndev/event": "^1.0",
-        "mhndev/php-std": "dev-develop"
+        "mhndev/php-std": "dev-develop",
+        "poirot/oauth2" :"dev-devel",
+        "vlucas/phpdotenv": "^2.4",
+        "tuupola/cors-middleware": "^0.5.2"
     },
     "require-dev": {
         "phpunit/phpunit": ">=4.8 < 6.0",
@@ -39,6 +42,7 @@
 	"scripts": {
         "start": "php -S 0.0.0.0:8080 -t public public/index.php",
         "test": "phpunit"
-	}
+	},
+    "minimum-stability" : "dev"
 
 }

@@ -7,7 +7,7 @@ $app->options('/{routes:.+}', function ($request, $response, $args) {
 
 
 $app->get('/','mhndev\orderService\http\OrderController:index');
-$app->get('/me','mhndev\orderService\http\OrderController:me');
+$app->get('/me','mhndev\orderService\http\OrderController:me')->add($app->getContainer()->get('authorizationMiddleware'));
 $app->get('/{id}','mhndev\orderService\http\OrderController:show');
 $app->post('/','mhndev\orderService\http\OrderController:create');
 $app->patch('/{id}','mhndev\orderService\http\OrderController:changeStatus');
