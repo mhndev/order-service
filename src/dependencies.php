@@ -19,16 +19,6 @@ $container['logger'] = function ($c) {
 };
 
 
-$c['errorHandler'] = function ($c) {
-    return function ($request, $response, $exception) use ($c) {
-
-        $globalExceptionHandler = new \mhndev\orderService\exception\handler();
-        return $globalExceptionHandler->render($exception, $response,$c );
-
-    };
-};
-
-
 
 $container['db'] = function($c){
     $settings = $c->get('settings')['db'];
@@ -43,11 +33,6 @@ $container['db'] = function($c){
 
 $container['OrderRepository'] = function ($c) {
     return new mhndev\order\repositories\mongo\OrderRepository($c['db'], 'orders');
-};
-
-
-$container[\mhndev\orderService\http\OrderController::class] = function ($c) {
-    return new \mhndev\orderService\http\OrderController($c['OrderRepository']);
 };
 
 
@@ -69,4 +54,14 @@ $container['corsMiddleware'] = function($c){
 
 $container['corsMiddlewareMe'] = function($c){
     return new \mhndev\orderService\middlewares\MiddlewareCors($c);
+};
+
+
+$container['orderAccess'] = function($c){
+    return new \mhndev\order\OrderAccess(include 'orders.php');
+};
+
+
+$container[\mhndev\orderService\http\OrderController::class] = function ($c) {
+    return new \mhndev\orderService\http\OrderController($c['OrderRepository'], $c['orderAccess']);
 };

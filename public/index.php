@@ -23,6 +23,16 @@ session_start();
 // Instantiate the app
 $settings = require __DIR__ . '/../src/settings.php';
 $app = new \Slim\App($settings);
+$c = $app->getContainer();
+
+$c['errorHandler'] = function ($c) {
+    return function ($request, $response, $exception) use ($c) {
+
+        $globalExceptionHandler = new \mhndev\orderService\exceptions\handler();
+        return $globalExceptionHandler->render($exception, $request, $response,$c );
+
+    };
+};
 
 
 // Set up dependencies
@@ -35,7 +45,7 @@ require __DIR__ . '/../src/middleware.php';
 require __DIR__ . '/../src/routes.php';
 
 // Set up application events
-require __DIR__ . '/../src/app/events.php';
+require __DIR__ . '/../src/events.php';
 
 // Run app
 $app->run();

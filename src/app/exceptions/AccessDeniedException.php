@@ -1,6 +1,6 @@
 <?php
 
-namespace mhndev\orderService\exception;
+namespace mhndev\orderService\exceptions;
 
 /**
  * Class AccessDeniedException

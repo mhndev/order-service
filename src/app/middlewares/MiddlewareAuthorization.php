@@ -2,7 +2,7 @@
 
 namespace mhndev\orderService\middlewares;
 
-use mhndev\orderService\exception\AccessDeniedException;
+use mhndev\orderService\exceptions\AccessDeniedException;
 use Poirot\OAuth2\Resource\Validation\AuthorizeByRemoteServer;
 use Poirot\OAuth2\Server\Exception\exOAuthServer;
 
@@ -14,6 +14,27 @@ class MiddlewareAuthorization
 {
 
     /**
+     * @var string
+     */
+    private static $ownerIdentifier;
+
+    /**
+     * @var array
+     */
+    private static $scopes;
+
+    /**
+     * @var mixed
+     */
+    private static $user;
+
+    /**
+     * @var string
+     */
+    private static $token;
+
+
+    /**
      * MiddlewareCors constructor.
      * @param $container
      */
@@ -21,6 +42,43 @@ class MiddlewareAuthorization
     {
         $this->container = $container;
     }
+
+
+
+
+    /**
+     * @return mixed
+     */
+    public static function user()
+    {
+        return self::$user;
+    }
+
+    /**
+     * @return string
+     */
+    public static function token()
+    {
+        return self::$token;
+    }
+
+    /**
+     * @return string
+     */
+    public static function scopes()
+    {
+        return self::$scopes;
+    }
+
+
+    /**
+     * @return string
+     */
+    public static function ownerIdentifier()
+    {
+        return self::$ownerIdentifier;
+    }
+
 
 
     /**
@@ -36,13 +94,18 @@ class MiddlewareAuthorization
     {
         $oauthServerAddress = env('oauth_server');
         $serverAuthorizationHeader = 'Basic '.base64_encode(env('oauth_client_id').':'.env('oauth_client_secret'));
-
         $authorizationServer = new AuthorizeByRemoteServer($oauthServerAddress, $serverAuthorizationHeader);
+
 
         try{
             $accessToken = $authorizationServer->hasValidated($request);
-            $scopes = $accessToken->getScopes();
-            $ownerIdentifier = $accessToken->getOwnerIdentifier();
+
+            self::$token = $authorizationServer->assertAccessToken($request);
+            self::$scopes = $accessToken->getScopes();
+
+            self::$ownerIdentifier = $accessToken->getOwnerIdentifier();
+
+
 
             //todo check for access to resources for now pass all request
             if(0){

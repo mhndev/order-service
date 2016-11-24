@@ -5,7 +5,11 @@ namespace mhndev\orderService\http;
 use mhndev\event\Event;
 use mhndev\order\entities\common\Order;
 use mhndev\order\interfaces\repositories\iOrderRepository;
+use mhndev\order\OrderAccess;
+use mhndev\orderService\exceptions\AccessDeniedException;
+use mhndev\orderService\middlewares\MiddlewareAuthorization;
 use mhndev\restHal\HalApiPresenter;
+use mhndev\restHal\PatchOperation;
 use mhndev\restHal\PatchOperationBuilder;
 use MongoDB\DeleteResult;
 use Slim\Http\Request;
@@ -24,15 +28,22 @@ class OrderController
      */
     protected $repository;
 
+
+    /**
+     * @var OrderAccess
+     */
+    protected $orderAccess;
+
     /**
      * OrderController constructor.
-     * @param $repository
+     * @param iOrderRepository $repository
+     * @param OrderAccess $orderAccess
      */
-    public function __construct(iOrderRepository $repository)
+    public function __construct(iOrderRepository $repository, OrderAccess $orderAccess)
     {
         $this->repository = $repository;
+        $this->orderAccess = $orderAccess;
     }
-
 
 
     /**
@@ -40,10 +51,23 @@ class OrderController
      * @param Response $response
      * @param $args
      * @return mixed|Response
+     * @throws AccessDeniedException
      */
     public function show(Request $request, Response $response, $args)
     {
         $order = $this->repository->findByIdentifier($args['id']);
+
+        $scopes = MiddlewareAuthorization::scopes();
+
+        if(!in_array('admin', $scopes) && (
+                !in_array('driver', $scopes) ||
+                MiddlewareAuthorization::ownerIdentifier() != $order->getOwnerIdentifier()
+            )){
+            throw new AccessDeniedException;
+        }
+
+
+
 
         $response = (new HalApiPresenter('resource'))
             ->setStatusCode(200)
@@ -79,7 +103,7 @@ class OrderController
     {
         list($perPage, $page, $offset, $limit) = array_values($this->getPaginationParamsFromRequest($request));
 
-        $orders = $this->repository->findByOwnerIdentifier('v3tb54nym4n5v34', $offset, $limit);
+        $orders = $this->repository->findByOwnerIdentifier(MiddlewareAuthorization::ownerIdentifier(), $offset, $limit);
         $perPage = min($orders['total'], $perPage);
 
         $data = [
@@ -207,16 +231,31 @@ class OrderController
      * @param Response $response
      * @param $args
      * @return Response
+     * @throws \Exception
      */
     public function changeStatus(Request $request, Response $response, $args)
     {
+        $scopes = MiddlewareAuthorization::scopes();
         $order = $this->repository->findByIdentifier($args['id']);
+
+
+        $operations  = PatchOperationBuilder::operations($request);
+        /** @var PatchOperation $op */
+        $op = $operations[0];
+
+        if(($result = $this->orderAccess->can($order, $op->getOption('value'), $scopes)) != true){
+            $response = (new HalApiPresenter('error'))
+                ->setData(['message'=> $result])
+                ->setStatusCode(200)
+                ->makeResponse($request, $response);
+        }
+
         $orderUpdated = PatchOperationBuilder::applyFromRequest($request, $order);
         $this->repository->update($orderUpdated);
 
         $response = (new HalApiPresenter('resource'))
-            ->setData(iterator_to_array($orderUpdated))
-            ->setStatusCode(200)
+           // ->setData(iterator_to_array($orderUpdated))
+            ->setStatusCode(204)
             ->makeResponse($request, $response);
 
         return $response;
