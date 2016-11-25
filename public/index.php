@@ -12,6 +12,10 @@ if (PHP_SAPI == 'cli-server') {
         return false;
     }
 }
+header('Access-Control-Allow-Origin: *');
+header("Access-Control-Allow-Methods: OPTIONS, GET, POST ,PUT, DELETE, PATCH");
+header('Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
+
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -23,17 +27,6 @@ session_start();
 // Instantiate the app
 $settings = require __DIR__ . '/../src/settings.php';
 $app = new \Slim\App($settings);
-$c = $app->getContainer();
-
-$c['errorHandler'] = function ($c) {
-    return function ($request, $response, $exception) use ($c) {
-
-        $globalExceptionHandler = new \mhndev\orderService\exceptions\handler();
-        return $globalExceptionHandler->render($exception, $request, $response,$c );
-
-    };
-};
-
 
 // Set up dependencies
 require __DIR__ . '/../src/dependencies.php';

@@ -18,7 +18,14 @@ $container['logger'] = function ($c) {
     return $logger;
 };
 
+$c['errorHandler'] = function ($c) {
+    return function ($request, $response, $exception) use ($c) {
 
+        $globalExceptionHandler = new \mhndev\orderService\exceptions\handler();
+        return $globalExceptionHandler->render($exception, $request, $response,$c );
+
+    };
+};
 
 $container['db'] = function($c){
     $settings = $c->get('settings')['db'];

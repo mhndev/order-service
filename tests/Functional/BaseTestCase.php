@@ -36,7 +36,7 @@ class BaseTestCase extends \PHPUnit_Framework_TestCase
         $environment = Environment::mock(
             [
                 'REQUEST_METHOD' => $requestMethod,
-                'REQUEST_URI' => $requestUri
+                'REQUEST_URI' => $requestUri,
             ]
         );
 
@@ -47,7 +47,6 @@ class BaseTestCase extends \PHPUnit_Framework_TestCase
         if (isset($requestData)) {
             $request = $request->withParsedBody($requestData);
         }
-
         // Set up a response object
         $response = new Response();
 

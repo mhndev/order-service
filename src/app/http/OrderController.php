@@ -57,14 +57,14 @@ class OrderController
     {
         $order = $this->repository->findByIdentifier($args['id']);
 
-        $scopes = MiddlewareAuthorization::scopes();
+//        $scopes = MiddlewareAuthorization::scopes();
 
-        if(!in_array('admin', $scopes) && (
+/*        if(!in_array('admin', $scopes) && (
                 !in_array('driver', $scopes) ||
                 MiddlewareAuthorization::ownerIdentifier() != $order->getOwnerIdentifier()
             )){
             throw new AccessDeniedException;
-        }
+        }*/
 
 
 
